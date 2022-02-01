@@ -1,5 +1,6 @@
 #include "train.h"
 #include <QPainter>
+#include <QDebug>
 
 Train::Train(QRect dim)
 {
@@ -8,6 +9,18 @@ Train::Train(QRect dim)
     this->w = dim.width();
     this->h = dim.height();
     this->vel = 5;
+    this->time = 100;
+}
+
+Train::Train(Rail* rail)
+{
+    QPoint p = rail->getStart();
+    this->x = p.x()-10;
+    this->y = p.y()-10;
+    this->w = 20;
+    this->h = 20;
+    this->vel = 5;
+    this->time = 100;
 }
 
 void Train::draw(QPainter *shape, QColor color)
@@ -39,6 +52,16 @@ void Train::setPos(int x, int y)
     this->y = y;
 }
 
+int Train::getTime()
+{
+    return this->time;
+}
+
+void Train::setTime(int time)
+{
+    this->time = time;
+}
+
 void Train::move()
 {
     // yellow
@@ -57,5 +80,28 @@ void Train::move()
     if (this->y >= 0 && this->y <= 220 && this->x == 0) {
         // moveUp()
         this->y -= this->vel;
+    }
+}
+
+void Train::move(Rail *rail, int dir)
+{
+    QChar ori = rail->getOrientation();
+    QPoint start = rail->getStart();
+    QPoint finish = rail->getFinish();
+
+    if (ori == 'H') {
+       if (this->x >= start.x()-10 && this->x <= finish.x()-10 && this->y == start.y()-10) {
+           if (dir == 1)
+            this->x += this->vel;
+           else
+            this->x -= this->vel;
+       }
+    } else {
+        if (this->y >= start.y()-10 && this->y <= finish.y()-10 && this->x == start.x()-10) {
+            if (dir == 1)
+             this->y -= this->vel;
+            else
+             this->y += this->vel;
+        }
     }
 }

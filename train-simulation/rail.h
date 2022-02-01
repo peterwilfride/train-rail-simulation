@@ -12,6 +12,9 @@ public:
     Rail(QPoint pi, QPoint pf);
     void draw(QPainter *shape, QColor color);
     int lenght();
+    QPoint getStart();
+    QPoint getFinish();
+    QChar getOrientation();
 private:
     QPoint pi;
     QPoint pf;

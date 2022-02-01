@@ -25,3 +25,23 @@ int Rail::lenght()
     int h = abs(xf - xi) != 0 ? abs(xf - xi) : abs(yf - yi);
     return h;
 }
+
+QPoint Rail::getStart()
+{
+    return this->pi;
+}
+
+QPoint Rail::getFinish()
+{
+    return this->pf;
+}
+
+QChar Rail::getOrientation()
+{
+    if (this->pf.x() > this->pi.x()) {
+        return 'H'; // horizontal
+    }
+    return 'V'; // vertical
+}
+
+

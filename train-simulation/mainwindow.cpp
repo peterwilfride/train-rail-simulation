@@ -10,22 +10,23 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    yellow_train = new Train(QRect(0,0,20,20));
-    blue_train = new Train(QRect(780,0,20,20));
-    red_train = new Train(QRect(0,220,20,20));
 
     rail1 = new Rail(QPoint(10, 10), QPoint(10, 230));
     rail2 = new Rail(QPoint(10, 10), QPoint(390, 10));
     rail5 = new Rail(QPoint(390, 10), QPoint(790, 10));
     rail6 = new Rail(QPoint(790, 10), QPoint(790, 230));
-    rail8 = new Rail(QPoint(10,470), QPoint(790,470));
-    rail9 = new Rail(QPoint(790,230), QPoint(790,470));
+    rail9 = new Rail(QPoint(10,470), QPoint(790,470));
+    rail8 = new Rail(QPoint(790,230), QPoint(790,470));
     rail10 = new Rail(QPoint(10,230), QPoint(10,470));
     rail3 = new Rail(QPoint(390,10), QPoint(390,230));
     rail4 = new Rail(QPoint(10,230), QPoint(390,230));
     rail7 = new Rail(QPoint(390,230), QPoint(790,230));
 
-    time_y = 100;
+    yellow_train = new Train(rail1);
+    blue_train = new Train(rail6);
+    red_train = new Train(rail8);
+
+    basetime = 100;
 }
 
 MainWindow::~MainWindow()
@@ -64,24 +65,66 @@ void MainWindow::paintEvent(QPaintEvent *e)
     red_train->draw(&shape, Qt::red);
 }
 
-void MainWindow::TimerSlot()
+void MainWindow::TimerSlotTrail1()
 {
-    yellow_train->move();
+    yellow_train->move(rail2, 1);
+    yellow_train->move(rail3, -1);
+    yellow_train->move(rail4, -1);
+    yellow_train->move(rail1, 1);
+    update();
+}
+
+void MainWindow::TimerSlotTrail2()
+{
+    blue_train->move(rail6, -1);
+    blue_train->move(rail7, -1);
+    blue_train->move(rail3, 1);
+    blue_train->move(rail5, 1);
+    update();
+}
+
+void MainWindow::TimerSlotTrail3()
+{
+    red_train->move(rail8, -1);
+    red_train->move(rail9, -1);
+    red_train->move(rail10, 1);
+    red_train->move(rail4, 1);
+    red_train->move(rail7, 1);
     update();
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &MainWindow::TimerSlot);
-    timer->start(time_y);
-    qDebug() << time_y;
+    timer_train1 = new QTimer(this);
+    timer_train2 = new QTimer(this);
+    timer_train3 = new QTimer(this);
+
+    connect(timer_train1, &QTimer::timeout, this, &MainWindow::TimerSlotTrail1);
+    connect(timer_train2, &QTimer::timeout, this, &MainWindow::TimerSlotTrail2);
+    connect(timer_train3, &QTimer::timeout, this, &MainWindow::TimerSlotTrail3);
+
+    timer_train1->start(basetime);
+    timer_train2->start(basetime);
+    timer_train3->start(basetime);
 }
 
 void MainWindow::on_yellow_horizontalSlider_sliderMoved(int position)
 {
-    time_y = 100/position;
-    timer->start(time_y);
-    qDebug() << time_y;
+    yellow_train->setTime(basetime/position);
+    timer_train1->start(yellow_train->getTime());
+}
+
+
+void MainWindow::on_blue_horizontalSlider_sliderMoved(int position)
+{
+    blue_train->setTime(basetime/position);
+    timer_train2->start(blue_train->getTime());
+}
+
+
+void MainWindow::on_red_horizontalSlider_sliderMoved(int position)
+{
+    red_train->setTime(basetime/position);
+    timer_train3->start(red_train->getTime());
 }
 

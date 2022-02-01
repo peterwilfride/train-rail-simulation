@@ -22,10 +22,19 @@ protected:
     virtual void paintEvent(QPaintEvent *e);
 
 private slots:
-    void TimerSlot();
+    void TimerSlotTrail1();
+
+    void TimerSlotTrail2();
+
+    void TimerSlotTrail3();
+
     void on_pushButton_clicked();
 
     void on_yellow_horizontalSlider_sliderMoved(int position);
+
+    void on_blue_horizontalSlider_sliderMoved(int position);
+
+    void on_red_horizontalSlider_sliderMoved(int position);
 
 private:
     Ui::MainWindow *ui;
@@ -45,8 +54,10 @@ private:
     Rail* rail9;
     Rail* rail10;
 
-    QTimer* timer;
+    QTimer* timer_train1;
+    QTimer* timer_train2;
+    QTimer* timer_train3;
 
-    int time_y;
+    int basetime;
 };
 #endif // MAINWINDOW_H
