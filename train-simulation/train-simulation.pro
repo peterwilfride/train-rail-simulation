@@ -10,10 +10,14 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    rail.cpp \
+    train.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    rail.h \
+    train.h
 
 FORMS += \
     mainwindow.ui
