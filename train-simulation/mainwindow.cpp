@@ -4,6 +4,8 @@
 #include <QPainter>
 #include <QTimer>
 #include "rail.h"
+#include <pthread.h>
+#include <semaphore.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -27,6 +29,31 @@ MainWindow::MainWindow(QWidget *parent)
     red_train = new Train(rail8);
 
     basetime = 100;
+    int res;
+
+
+    res = pthread_mutex_init(&work_mutex, NULL);
+    if(res != 0){
+        qDebug() << "Iniciação do Mutex falhou";
+    }
+
+
+    res = pthread_create(&thread_train1, NULL, &MainWindow::TimerSlotTrail1, NULL);
+    if(res != 0){
+        qDebug() << "Iniciação da thread1 falhou";
+    }
+
+    res = pthread_create(&thread_train2, NULL, &MainWindow::TimerSlotTrail2, NULL);
+    if(res != 0){
+        qDebug() << "Iniciação da thread2 falhou";
+    }
+
+    res = pthread_create(&thread_train3, NULL, &MainWindow::TimerSlotTrail3, NULL);
+    if(res != 0){
+        qDebug() << "Iniciação da thread3 falhou";
+    }
+
+
 }
 
 MainWindow::~MainWindow()

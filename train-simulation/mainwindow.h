@@ -59,5 +59,10 @@ private:
     QTimer* timer_train3;
 
     int basetime;
+
+    pthread_mutex_t work_mutex;
+    pthread_t thread_train1, thread_train2, thread_train3;
+    void *thread_result;
+
 };
 #endif // MAINWINDOW_H
