@@ -16,32 +16,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void move(QPainter train);
 
-protected:
-    virtual void paintEvent(QPaintEvent *e);
+    static void delay(int n);
 
-private slots:
-    void TimerSlotTrail1();
-
-    void TimerSlotTrail2();
-
-    void TimerSlotTrail3();
-
-    void on_pushButton_clicked();
-
-    void on_yellow_horizontalSlider_sliderMoved(int position);
-
-    void on_blue_horizontalSlider_sliderMoved(int position);
-
-    void on_red_horizontalSlider_sliderMoved(int position);
-
-private:
-    Ui::MainWindow *ui;
-
-    Train* yellow_train;
-    Train* blue_train;
-    Train* red_train;
+    static void sendPosTrain1(int px, int py);
+    static void sendPosTrain2(int px, int py);
+    static void sendPosTrain3(int px, int py);
 
     Rail* rail1;
     Rail* rail2;
@@ -54,15 +34,20 @@ private:
     Rail* rail9;
     Rail* rail10;
 
-    QTimer* timer_train1;
-    QTimer* timer_train2;
-    QTimer* timer_train3;
+protected:
+    virtual void paintEvent(QPaintEvent *e);
+
+private slots:
+    /*
+    void on_yellow_horizontalSlider_sliderMoved(int position);
+
+    void on_blue_horizontalSlider_sliderMoved(int position);
+
+    void on_red_horizontalSlider_sliderMoved(int position);*/
+
+private:
+    Ui::MainWindow *ui;
 
     int basetime;
-
-    pthread_mutex_t work_mutex;
-    pthread_t thread_train1, thread_train2, thread_train3;
-    void *thread_result;
-
 };
 #endif // MAINWINDOW_H

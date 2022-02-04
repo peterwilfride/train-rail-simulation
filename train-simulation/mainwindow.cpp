@@ -4,8 +4,17 @@
 #include <QPainter>
 #include <QTimer>
 #include "rail.h"
-#include <pthread.h>
-#include <semaphore.h>
+#include "train.h"
+#include <QTime>
+#include <thread>
+#include <functional>
+#include <QThread>
+
+Train* yellow_train;
+Train* blue_train;
+Train* red_train;
+
+QPoint pos_train1, pos_train2, pos_train3;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -29,36 +38,37 @@ MainWindow::MainWindow(QWidget *parent)
     red_train = new Train(rail8);
 
     basetime = 100;
-    int res;
-
-
-    res = pthread_mutex_init(&work_mutex, NULL);
-    if(res != 0){
-        qDebug() << "Iniciação do Mutex falhou";
-    }
-
-
-    res = pthread_create(&thread_train1, NULL, &MainWindow::TimerSlotTrail1, NULL);
-    if(res != 0){
-        qDebug() << "Iniciação da thread1 falhou";
-    }
-
-    res = pthread_create(&thread_train2, NULL, &MainWindow::TimerSlotTrail2, NULL);
-    if(res != 0){
-        qDebug() << "Iniciação da thread2 falhou";
-    }
-
-    res = pthread_create(&thread_train3, NULL, &MainWindow::TimerSlotTrail3, NULL);
-    if(res != 0){
-        qDebug() << "Iniciação da thread3 falhou";
-    }
-
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::delay(int n)
+{
+    QTime dieTime= QTime::currentTime().addMSecs(n);
+    while (QTime::currentTime() < dieTime) {
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    }
+}
+
+void MainWindow::sendPosTrain1(int px, int py)
+{
+    pos_train1.setX(px);
+    pos_train1.setY(py);
+}
+
+void MainWindow::sendPosTrain2(int px, int py)
+{
+    pos_train2.setX(px);
+    pos_train2.setY(py);
+}
+
+void MainWindow::sendPosTrain3(int px, int py)
+{
+    pos_train3.setX(px);
+    pos_train3.setY(py);
 }
 
 void MainWindow::paintEvent(QPaintEvent *e)
@@ -90,68 +100,36 @@ void MainWindow::paintEvent(QPaintEvent *e)
     yellow_train->draw(&shape, Qt::yellow);
     blue_train->draw(&shape, Qt::blue);
     red_train->draw(&shape, Qt::red);
-}
 
-void MainWindow::TimerSlotTrail1()
-{
-    yellow_train->move(rail2, 1);
-    yellow_train->move(rail3, -1);
-    yellow_train->move(rail4, -1);
-    yellow_train->move(rail1, 1);
+    ui->label_px->setText(QString::number(pos_train2.x()));
+    ui->label_py->setText(QString::number(pos_train2.y()));
+
+    // set positions of trains
+    yellow_train->setPos(pos_train1.x(), pos_train1.y());
+    blue_train->setPos(pos_train2.x(), pos_train2.y());
+    red_train->setPos(pos_train3.x(), pos_train3.y());
+
     update();
 }
 
-void MainWindow::TimerSlotTrail2()
-{
-    blue_train->move(rail6, -1);
-    blue_train->move(rail7, -1);
-    blue_train->move(rail3, 1);
-    blue_train->move(rail5, 1);
-    update();
-}
-
-void MainWindow::TimerSlotTrail3()
-{
-    red_train->move(rail8, -1);
-    red_train->move(rail9, -1);
-    red_train->move(rail10, 1);
-    red_train->move(rail4, 1);
-    red_train->move(rail7, 1);
-    update();
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-    timer_train1 = new QTimer(this);
-    timer_train2 = new QTimer(this);
-    timer_train3 = new QTimer(this);
-
-    connect(timer_train1, &QTimer::timeout, this, &MainWindow::TimerSlotTrail1);
-    connect(timer_train2, &QTimer::timeout, this, &MainWindow::TimerSlotTrail2);
-    connect(timer_train3, &QTimer::timeout, this, &MainWindow::TimerSlotTrail3);
-
-    timer_train1->start(basetime);
-    timer_train2->start(basetime);
-    timer_train3->start(basetime);
-}
-
+/*
 void MainWindow::on_yellow_horizontalSlider_sliderMoved(int position)
 {
     yellow_train->setTime(basetime/position);
-    timer_train1->start(yellow_train->getTime());
+    //timer_train1->start(yellow_train->getTime());
 }
 
 
 void MainWindow::on_blue_horizontalSlider_sliderMoved(int position)
 {
     blue_train->setTime(basetime/position);
-    timer_train2->start(blue_train->getTime());
+    //timer_train2->start(blue_train->getTime());
 }
 
 
 void MainWindow::on_red_horizontalSlider_sliderMoved(int position)
 {
     red_train->setTime(basetime/position);
-    timer_train3->start(red_train->getTime());
+    //timer_train3->start(red_train->getTime());
 }
-
+*/
