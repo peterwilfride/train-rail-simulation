@@ -15,6 +15,7 @@ Train* blue_train;
 Train* red_train;
 
 QPoint pos_train1, pos_train2, pos_train3;
+int t_train1;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -38,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     red_train = new Train(rail8);
 
     basetime = 100;
+    t_train1 = basetime;
 }
 
 MainWindow::~MainWindow()
@@ -69,6 +71,11 @@ void MainWindow::sendPosTrain3(int px, int py)
 {
     pos_train3.setX(px);
     pos_train3.setY(py);
+}
+
+int MainWindow::sendTimeTrain1()
+{
+    return t_train1;
 }
 
 void MainWindow::paintEvent(QPaintEvent *e)
@@ -112,14 +119,13 @@ void MainWindow::paintEvent(QPaintEvent *e)
     update();
 }
 
-/*
+
 void MainWindow::on_yellow_horizontalSlider_sliderMoved(int position)
 {
-    yellow_train->setTime(basetime/position);
-    //timer_train1->start(yellow_train->getTime());
+    t_train1 = basetime/position;
 }
 
-
+/*
 void MainWindow::on_blue_horizontalSlider_sliderMoved(int position)
 {
     blue_train->setTime(basetime/position);

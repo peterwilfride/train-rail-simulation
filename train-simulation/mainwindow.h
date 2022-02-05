@@ -23,6 +23,8 @@ public:
     static void sendPosTrain2(int px, int py);
     static void sendPosTrain3(int px, int py);
 
+    static int sendTimeTrain1();
+
     Rail* rail1;
     Rail* rail2;
     Rail* rail3;
@@ -38,9 +40,8 @@ protected:
     virtual void paintEvent(QPaintEvent *e);
 
 private slots:
-    /*
     void on_yellow_horizontalSlider_sliderMoved(int position);
-
+    /*
     void on_blue_horizontalSlider_sliderMoved(int position);
 
     void on_red_horizontalSlider_sliderMoved(int position);*/

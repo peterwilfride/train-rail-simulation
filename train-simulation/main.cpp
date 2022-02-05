@@ -46,6 +46,7 @@ void* train1(void*)
         while(px_1 >= 0 && px_1 < 380 && py_1 == 0) {
             px_1 += v1;
             MainWindow::sendPosTrain1(px_1, py_1);
+            qDebug() << MainWindow::sendTimeTrain1();
             MainWindow::delay(100);
         }
         //qDebug() << "move no trilho 3";
