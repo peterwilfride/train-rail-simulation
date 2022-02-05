@@ -46,15 +46,14 @@ void* train1(void*)
         while(px_1 >= 0 && px_1 < 380 && py_1 == 0) {
             px_1 += v1;
             MainWindow::sendPosTrain1(px_1, py_1);
-            qDebug() << MainWindow::sendTimeTrain1();
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain1());
         }
         //qDebug() << "move no trilho 3";
         pthread_mutex_lock(&mutex1);
         while(py_1 >= 0 && py_1 < 220 && px_1 == 380) {
             py_1 += v1;
             MainWindow::sendPosTrain1(px_1, py_1);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain1());
         }
         pthread_mutex_unlock(&mutex1);
         //qDebug() << "move no trilho 4";
@@ -62,14 +61,14 @@ void* train1(void*)
         while(px_1 > 0 && px_1 <= 380 && py_1 == 220) {
             px_1 -= v1;
             MainWindow::sendPosTrain1(px_1, py_1);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain1());
         }
         pthread_mutex_unlock(&mutex2);
         //qDebug() << "move no trilho 1";
         while(py_1 > 0 && py_1 <= 220 && px_1 == 0) {
             py_1 -= v1;
             MainWindow::sendPosTrain1(px_1, py_1);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain1());
         }
     }
 }
@@ -81,14 +80,14 @@ void* train2(void*)
         while(py_2 >= 0 && py_2 < 220 && px_2 == 780) {
             py_2 += v2;
             MainWindow::sendPosTrain2(px_2, py_2);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain2());
         }
         //qDebug() << "move no trilho 7";
         pthread_mutex_lock(&mutex3);
         while(px_2 > 380 && px_2 <= 780 && py_2 == 220) {
             px_2 -= v2;
             MainWindow::sendPosTrain2(px_2, py_2);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain2());
         }
         pthread_mutex_unlock(&mutex3);
         //qDebug() << "move no trilho 3";
@@ -96,14 +95,14 @@ void* train2(void*)
         while(py_2 > 0 && py_2 <= 220 && px_2 == 380) {
             py_2 -= v2;
             MainWindow::sendPosTrain2(px_2, py_2);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain2());
         }
         pthread_mutex_unlock(&mutex1);
         //qDebug() << "move no trilho 5";
         while(px_2 >= 380 && px_2 < 780 && py_2 == 0) {
             px_2 += v2;
             MainWindow::sendPosTrain2(px_2, py_2);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain2());
         }
     }
 }
@@ -115,26 +114,26 @@ void* train3(void*)
         while(py_3 >= 220 && py_3 < 460 && px_3 == 780) {
             py_3 += v3;
             MainWindow::sendPosTrain3(px_3, py_3);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain3());
         }
         //qDebug() << "move no trilho 9";
         while(px_3 > 0 && px_3 <= 780 && py_3 == 460) {
             px_3 -= v3;
             MainWindow::sendPosTrain3(px_3, py_3);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain3());
         }
         //qDebug() << "move no trilho 10";
         while(py_3 > 220 && py_3 <= 460 && px_3 == 0) {
             py_3 -= v3;
             MainWindow::sendPosTrain3(px_3, py_3);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain3());
         }
         //qDebug() << "move no trilho 4";
         pthread_mutex_lock(&mutex2);
         while(px_3 >= 0 && px_3 < 380 && py_3 == 220) {
             px_3 += v3;
             MainWindow::sendPosTrain3(px_3, py_3);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain3());
         }
         pthread_mutex_unlock(&mutex2);
         //qDebug() << "move no trilho 7";
@@ -142,7 +141,7 @@ void* train3(void*)
         while(px_3 >= 380 && px_3 < 780 && py_3 == 220) {
             px_3 += v3;
             MainWindow::sendPosTrain3(px_3, py_3);
-            MainWindow::delay(100);
+            MainWindow::delay(MainWindow::sendTimeTrain3());
         }
         pthread_mutex_unlock(&mutex3);
     }

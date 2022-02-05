@@ -24,6 +24,8 @@ public:
     static void sendPosTrain3(int px, int py);
 
     static int sendTimeTrain1();
+    static int sendTimeTrain2();
+    static int sendTimeTrain3();
 
     Rail* rail1;
     Rail* rail2;
@@ -41,10 +43,10 @@ protected:
 
 private slots:
     void on_yellow_horizontalSlider_sliderMoved(int position);
-    /*
+
     void on_blue_horizontalSlider_sliderMoved(int position);
 
-    void on_red_horizontalSlider_sliderMoved(int position);*/
+    void on_red_horizontalSlider_sliderMoved(int position);
 
 private:
     Ui::MainWindow *ui;
